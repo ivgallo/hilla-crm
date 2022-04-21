@@ -6,10 +6,9 @@ import '@vaadin/button';
 import '@vaadin/grid';
 import '@vaadin/grid/vaadin-grid-column';
 import './contact-form';
-import {crmStore} from 'Frontend/stores/app-store';
+import {crmStore, uiStore} from 'Frontend/stores/app-store';
 import {listViewStore} from "Frontend/views/list/list-view-store";
 import '@vaadin/notification';
-import { uiStore } from 'Frontend/stores/app-store';
 
 @customElement('list-view')
 export class ListView extends View {
@@ -30,7 +29,7 @@ export class ListView extends View {
             <div class="content flex gap-m h-full">
                 <vaadin-grid
                         class="grid h-full"
-                        .items=${listViewStore.filteredContacts}
+                        .items=${crmStore.contacts}
                         .selectedItems=${[listViewStore.selectedContact]}
                         @active-item-changed=${this.handleGridSelection}>
                     <vaadin-grid-column path="firstName" auto-width></vaadin-grid-column>
@@ -51,8 +50,8 @@ export class ListView extends View {
         `;
     }
 
-    updateFilter(e: { target: HTMLInputElement }) {
-        listViewStore.updateFilter(e.target.value)
+    async updateFilter(e: { target: HTMLInputElement }) {
+       await listViewStore.updateFilter(e.target.value)
     }
 
     async handleGridSelection(e: CustomEvent) {
@@ -61,7 +60,6 @@ export class ListView extends View {
         return;
       }
       await listViewStore.setSelectedContact(e.detail.value);
-      //listViewStore.setSelectedContact(e.detail.value);
     }
 
     connectedCallback() {

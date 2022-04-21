@@ -53,6 +53,14 @@ public class CrmEndpoint {
         return contactRepository.findById(contactId).orElse(null);
     }
 
+    public List<@Nonnull Contact> findAllContacts(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return contactRepository.findAll();
+        } else {
+            return contactRepository.search(stringFilter);
+        }
+    }
+
     @Nonnull
     public Contact saveContact(Contact contact) {
         contact.setCompany(companyRepository.findById(contact.getCompany().getId())

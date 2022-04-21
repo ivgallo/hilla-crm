@@ -67,6 +67,9 @@ export class CrmStore {
         }
     }
 
+    async getFilteredContacts(filterText: string) {
+        this.contacts = await  CrmEndpoint.findAllContacts(filterText) as [];
+    }
 
     async deleteContact(contact: Contact) {
         if (!contact.id) return;

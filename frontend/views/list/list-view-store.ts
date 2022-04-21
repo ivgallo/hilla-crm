@@ -1,9 +1,10 @@
 import Contact from 'Frontend/generated/com/example/application/data/entity/Contact';
 import ContactModel from 'Frontend/generated/com/example/application/data/entity/ContactModel';
 import { crmStore } from 'Frontend/stores/app-store';
-import { makeAutoObservable, observable } from 'mobx';
+import {makeAutoObservable, observable, runInAction} from 'mobx';
 
 class ListViewStore {
+
     filterText = '';
     selectedContact: Contact | null = null;
 
@@ -15,8 +16,9 @@ class ListViewStore {
         );
     }
 
-    updateFilter(filterText: string){
+    async updateFilter(filterText: string){
         this.filterText = filterText
+        await crmStore.getFilteredContacts(this.filterText)
     }
 
     async save(contact: Contact) {
@@ -31,21 +33,10 @@ class ListViewStore {
         }
     }
 
-    get filteredContacts() {
-        const filter = new RegExp(this.filterText, 'i');
-        const contacts = crmStore.contacts;
-        return contacts.filter((contact) =>
-            filter.test(`${contact.firstName} ${contact.lastName}`)
-        );
-    }
 
     async setSelectedContact(contact: Contact){
         await crmStore.editContact(contact);
     }
-
-    // setSelectedContact(contact: Contact) {
-    //     this.selectedContact = contact;
-    // }
 
     editNew() {
         this.selectedContact = ContactModel.createEmptyValue();
