@@ -20,4 +20,4 @@ error-screenshots/
 webpack.generated.js
 
 # Contains secrets that shouldn’t go into the repository
-config/local/
+#config/local/

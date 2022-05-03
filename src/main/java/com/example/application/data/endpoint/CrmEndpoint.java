@@ -6,7 +6,6 @@ import com.example.application.data.entity.Status;
 import com.example.application.data.repository.CompanyRepository;
 import com.example.application.data.repository.ContactRepository;
 import com.example.application.data.repository.StatusRepository;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
 import dev.hilla.Nonnull;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Endpoint
-//@AnonymousAllowed
 @PermitAll
 public class CrmEndpoint {
 
@@ -75,4 +73,6 @@ public class CrmEndpoint {
     public void deleteContact(UUID contactId) {
         contactRepository.deleteById(contactId);
     }
+
+
 }

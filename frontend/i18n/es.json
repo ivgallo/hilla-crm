@@ -1,0 +1,42 @@
+{
+  "login": {
+    "form": {
+      "title": "Entrar al sistema",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "submit" : "Ingresar",
+      "forgotPassword": "Olvidar contraseña"
+    },
+    "errorMessage": {
+      "title": "Nombre de usuario o contraseña incorrecto"
+    }
+  },
+  "label": {
+    "contacts": "Contactos",
+    "dashboard": "Panel de control",
+    "companies": "Compañias",
+    "logout": "Salir",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo eléctronico",
+    "company": "Compañia",
+    "companyName": "Nombre de la compañia",
+    "status": "Estado",
+    "filterByName": "Filtrar por nombre",
+    "newCompany": "Nueva compañia",
+    "updateCompany": "Actualizar compañia"
+  },
+  "action": {
+    "addContact": "Adicionar Contacto",
+    "addCompany": "Adicionar Compañia",
+    "create": "Crear",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar"
+  },
+  "validationError": {
+    "NotEmpty": "no debe estar vacio",
+    "NotNull": "no debe ser nulo"
+  }
+}
+

@@ -120,6 +120,7 @@
     "construct-style-sheets-polyfill": "3.0.4",
     "line-awesome": "1.3.0",
     "lit": "2.1.4",
+    "lit-translate": "^2.0.1",
     "mobx": "^6.3.5"
   },
   "devDependencies": {
@@ -251,7 +252,8 @@
     "line-awesome": "$line-awesome",
     "mobx": "$mobx",
     "@hilla/form": "$@hilla/form",
-    "@hilla/frontend": "$@hilla/frontend"
+    "@hilla/frontend": "$@hilla/frontend",
+    "lit-translate": "$lit-translate"
   },
   "vaadin": {
     "dependencies": {
@@ -382,6 +384,6 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "8fe024b45b8dacc2e5116949281c704dd6a32037f24519f0d4a73ace6cf8c100"
+    "hash": "975e6d765709a2e0ecf43bf2e5b9de2ecec7abe59f435e45c1133d2ef66b99c3"
   }
 }

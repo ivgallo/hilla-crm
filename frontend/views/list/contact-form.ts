@@ -8,6 +8,7 @@ import {Binder, field} from "@hilla/form";
 import ContactModel from "Frontend/generated/com/example/application/data/entity/ContactModel";
 import {crmStore} from "Frontend/stores/app-store";
 import {listViewStore} from "Frontend/views/list/list-view-store";
+import {translate} from "lit-translate";
 
 @customElement("contact-form")
 export class ContactForm extends View {
@@ -29,34 +30,34 @@ export class ContactForm extends View {
 
         return html`
             <vaadin-text-field
-                    label="First name"
+                    label="${translate('label.firstName')}"
                     ${field(model.firstName)}></vaadin-text-field>
             <vaadin-text-field
-                    label="Last name"
+                    label="${translate('label.lastName')}"
                     ${field(model.lastName)}></vaadin-text-field>
             <vaadin-text-field
-                    label="Email"
+                    label="${translate('label.email')}"
                     ${field(model.email)}></vaadin-text-field>
             <vaadin-combo-box
-                    label="Status"
+                    label="${translate('label.status')}"
                     ${field(model.status)}
                     item-label-path="name"
                     .items=${crmStore.statuses}></vaadin-combo-box>
             <vaadin-combo-box
-                    label="Company"
+                    label="${translate('label.company')}"
                     ${field(model.company)}
                     item-label-path="name"
                     .items=${crmStore.companies}></vaadin-combo-box>
             
             <div class="flex gap-s">
                 <vaadin-button theme="primary" @click=${this.save}>
-                    ${this.binder.value.id ? 'Save' : 'Create'}
+                   ${this.getSaveButtonLabel()}
                 </vaadin-button>
                 <vaadin-button theme="error" @click=${listViewStore.delete}>
-                    Delete
+                    ${translate('action.delete')}
                 </vaadin-button>
                 <vaadin-button theme="tertiary" @click=${listViewStore.cancelEdit}>
-                    Cancel
+                    ${translate('action.cancel')}
                 </vaadin-button>
             </div>
         `;
@@ -65,5 +66,12 @@ export class ContactForm extends View {
     async save() {
         await this.binder.submitTo(listViewStore.save);
         this.binder.clear();
+    }
+
+    getSaveButtonLabel() {
+        if (this.binder.value.id) {
+            return html `${translate('action.save')}`
+        }
+        return html `${translate('action.create')}`
     }
 }

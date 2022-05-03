@@ -1,0 +1,41 @@
+{
+  "login": {
+    "form": {
+      "title": "Log in",
+      "username": "Username",
+      "password": "Password",
+      "submit" : "Log in",
+      "forgotPassword": "Forgot password"
+    },
+    "errorMessage": {
+      "title": "Incorrect username or password"
+    }
+  },
+  "label": {
+    "contacts": "Contacts",
+    "dashboard": "Dashboard",
+    "companies": "Companies",
+    "logout": "Logout",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "company": "Company",
+    "companyName": "Company name",
+    "status": "Status",
+    "filterByName": "Filter by name",
+    "newCompany": "New company",
+    "updateCompany": "Update company"
+  },
+  "action": {
+    "addContact": "Add Contact",
+    "addCompany": "Add Company",
+    "create": "Create",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "validationError": {
+    "NotEmpty": "must not be empty",
+    "NotNull": "must not be null"
+  }
+}

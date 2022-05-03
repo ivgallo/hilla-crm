@@ -1,3 +1,5 @@
+@import url('./main-layout.css');
+@import url('./company-list-view.css');
 @import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
 
 list-view contact-form {

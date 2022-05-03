@@ -2,11 +2,13 @@ import {Commands, Context, Route, Router} from '@vaadin/router';
 import {uiStore} from './stores/app-store';
 import {autorun} from 'mobx';
 import './views/list/list-view';
+import './views/company/company-list-view'
 import './views/login/login-view';
-import './main-layout.ts';
+import './views/main-layout.ts';
 
 export type ViewRoute = Route & {
     title?: string;
+    icon?: string;
     children?: ViewRoute[];
 };
 
@@ -23,12 +25,20 @@ export const views: ViewRoute[] = [
     {
         path: '',
         component: 'list-view',
-        title: 'Contacts',
+        title: 'label.contacts',
+        icon: 'la la-user'
+    },
+    {
+        path: 'companies',
+        component: 'company-list-view',
+        title: 'label.companies',
+        icon: 'la la-users'
     },
     {
         path: 'dashboard',
         component: 'dashboard-view',
-        title: 'Dashboard',
+        icon: 'la la-chart-area',
+        title: 'label.dashboard',
         action: async () => {
             await import('./views/dashboard/dashboard-view');
         },

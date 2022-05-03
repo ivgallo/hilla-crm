@@ -1,9 +1,10 @@
-import { uiStore } from 'Frontend/stores/app-store';
-import { html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
-import { View } from 'Frontend/views/view';
-import { LoginFormLoginEvent } from '@vaadin/login/vaadin-login-form.js';
+import {uiStore} from 'Frontend/stores/app-store';
+import {html} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
+import {View} from 'Frontend/views/view';
+import {LoginFormLoginEvent, LoginI18n} from '@vaadin/login/vaadin-login-form.js';
 import '@vaadin/login/vaadin-login-form.js';
+import {get} from "lit-translate";
 
 @customElement('login-view')
 export class LoginView extends View {
@@ -17,14 +18,32 @@ export class LoginView extends View {
     }
 
     render() {
+
+       const loginI18nDefault: LoginI18n = {
+           form: {
+               "title": get('login.form.title'),
+               "username": get('login.form.username'),
+               "password": get('login.form.password'),
+               "submit": get('login.form.submit'),
+               "forgotPassword": get('login.form.forgotPassword')
+           },
+           errorMessage: {
+               title: 'Incorrect username or password',
+               message: '',
+           }
+       }
         return html`
-      <h1>Hilla CRM</h1>
-      <vaadin-login-form
-        no-forgot-password
-        @login=${this.login}
-        .error=${this.error}>
-      </vaadin-login-form>
-    `;
+            <h1>Hilla CRM</h1>
+            <vaadin-login-form
+                    no-forgot-password
+                    @login=${this.login}
+                    .error=${this.error}
+                    .i18n=${Object.assign(
+                            loginI18nDefault
+                    )}
+            >
+            </vaadin-login-form>
+        `;
     }
 
     async login(e: LoginFormLoginEvent) {
@@ -34,4 +53,5 @@ export class LoginView extends View {
             this.error = true;
         }
     }
+
 }

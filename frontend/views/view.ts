@@ -1,6 +1,9 @@
 import { MobxLitElement } from '@adobe/lit-mobx';
 import { applyTheme } from 'Frontend/generated/theme';
 import { autorun, IAutorunOptions, IReactionDisposer, IReactionOptions, IReactionPublic, reaction } from 'mobx';
+import {use} from "lit-translate";
+import {state} from "lit/decorators.js";
+import {appStore} from "Frontend/stores/app-store";
 
 export class MobxElement extends MobxLitElement {
   private disposers: IReactionDisposer[] = [];
@@ -36,6 +39,21 @@ export class MobxElement extends MobxLitElement {
   }
 }
 
+class TranslatableElement extends MobxElement {
+  @state()
+  private hasLoadedStrings = false;
+
+  shouldUpdate(changedProperties: any) {
+    return this.hasLoadedStrings && super.shouldUpdate(changedProperties);
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    use(appStore.lang).then(() => (this.hasLoadedStrings = true));
+  }
+}
+
 /**
  * A view is a container that holds all UI elements, layouts and styling of a section of the application. A view is
  * usually mapped under a certain URL.
@@ -47,7 +65,7 @@ export class MobxElement extends MobxLitElement {
  *
  * The view class also brings the MobX dependency for state management.
  */
-export class View extends MobxElement {
+export class View extends TranslatableElement {
   createRenderRoot(): Element | ShadowRoot {
     // Do not use a shadow root
     return this;
@@ -63,7 +81,7 @@ export class View extends MobxElement {
  *
  * The layout class also bring the MobX dependency for state management.
  */
-export class Layout extends MobxElement {
+export class Layout extends TranslatableElement {
   connectedCallback(): void {
     super.connectedCallback();
     applyTheme(this.shadowRoot as ShadowRoot);

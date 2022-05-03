@@ -4,6 +4,7 @@ import {View} from 'Frontend/views/view';
 import '@vaadin/charts';
 import '@vaadin/charts/src/vaadin-chart-series';
 import {dashboardViewStore} from './dashboard-view-store';
+import {translate} from "lit-translate";
 
 @customElement('dashboard-view')
 export class DashboardView extends View {
@@ -15,7 +16,7 @@ export class DashboardView extends View {
     render() {
         return html`
             <div class="text-xl mb-xl">
-                ${dashboardViewStore.contactCount} contacts
+                ${dashboardViewStore.contactCount} ${translate('label.contacts')}
             </div>
             ${this.getCompanyStats()}
         `;

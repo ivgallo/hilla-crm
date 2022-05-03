@@ -9,6 +9,7 @@ import './contact-form';
 import {crmStore, uiStore} from 'Frontend/stores/app-store';
 import {listViewStore} from "Frontend/views/list/list-view-store";
 import '@vaadin/notification';
+import {translate} from "lit-translate";
 
 @customElement('list-view')
 export class ListView extends View {
@@ -18,13 +19,12 @@ export class ListView extends View {
     render() {
         return html`
             <div class="toolbar flex gap-s">
-                <!--        <vaadin-text-field placeholder="Filter by name" clear-button-visible></vaadin-text-field>-->
                 <vaadin-text-field
-                        placeholder="Filter by name"
+                        placeholder="${translate('label.filterByName')}"
                         .value=${listViewStore.filterText}
                         @input=${this.updateFilter}
                         clear-button-visible></vaadin-text-field>
-                <vaadin-button @click=${listViewStore.editNew}>Add Contact</vaadin-button>
+                <vaadin-button @click=${listViewStore.editNew}>${translate('action.addContact')}</vaadin-button>
             </div>
             <div class="content flex gap-m h-full">
                 <vaadin-grid
@@ -32,11 +32,11 @@ export class ListView extends View {
                         .items=${crmStore.contacts}
                         .selectedItems=${[listViewStore.selectedContact]}
                         @active-item-changed=${this.handleGridSelection}>
-                    <vaadin-grid-column path="firstName" auto-width></vaadin-grid-column>
-                    <vaadin-grid-column path="lastName" auto-width></vaadin-grid-column>
-                    <vaadin-grid-column path="email" auto-width></vaadin-grid-column>
-                    <vaadin-grid-column path="status.name" header="Status" auto-width></vaadin-grid-column>
-                    <vaadin-grid-column path="company.name" header="Company" auto-width></vaadin-grid-column>
+                    <vaadin-grid-column path="firstName" header="${translate('label.firstName')}" auto-width></vaadin-grid-column>
+                    <vaadin-grid-column path="lastName" header="${translate('label.lastName')}" auto-width></vaadin-grid-column>
+                    <vaadin-grid-column path="email" header="${translate('label.email')}" auto-width></vaadin-grid-column>
+                    <vaadin-grid-column path="status.name" header="${translate('label.status')}" auto-width></vaadin-grid-column>
+                    <vaadin-grid-column path="company.name" header="${translate('label.company')}" auto-width></vaadin-grid-column>
                 </vaadin-grid>
                 <contact-form class="flex flex-col gap-s" ?hidden=${!listViewStore.selectedContact}></contact-form>
             </div>
