@@ -8,10 +8,10 @@ import '@vaadin/vertical-layout';
 import '@vaadin/horizontal-layout';
 import '@vaadin/form-layout';
 import {Notification} from '@vaadin/notification';
-import {guard} from 'lit/directives/guard.js';
+import {dialogRenderer} from "lit-vaadin-helpers";
 import {Grid, GridDataProviderCallback, GridDataProviderParams} from '@vaadin/grid';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {html, render} from "lit";
+import {html} from "lit";
 import {translate} from "lit-translate";
 import Company from "Frontend/generated/com/example/application/data/entity/Company";
 import Sort from "Frontend/generated/dev/hilla/mappedtypes/Sort";
@@ -40,6 +40,7 @@ export class CompanyListView extends View {
     private binder = new Binder<Company, CompanyModel>(this, CompanyModel)
 
     render() {
+        const {model} = this.binder;
         return html`
             <div class="toolbar flex gap-s">
                 <vaadin-text-field
@@ -65,34 +66,32 @@ export class CompanyListView extends View {
                     .opened="${this.dialogOpened}"
                     @opened-changed="${(e: CustomEvent) => (this.dialogOpened = e.detail.value)}"
                     modeless
-                    .renderer="${guard([], () => (root: HTMLElement) => {
-                        render(this.dialogLayout, root);
-                    })}"
+                    ${dialogRenderer(
+                            () => html`
+                                <div class="dialog-header">
+                                    <span class="title">${this.binder.value.id ? translate("label.updateCompany") : translate("label.newCompany")}</span>
+                                </div>
+                                <vaadin-vertical-layout
+                                        style="align-items: stretch; width: 25rem; max-width: 100%;">
+                                    <vaadin-text-field label="${translate('label.companyName')}"
+                                                       id="name"
+                                                       ${field(model.name)}>
+
+                                    </vaadin-text-field>
+                                </vaadin-vertical-layout>
+                                <div class="dialog-footer">
+                                    <vaadin-button @click="${() => (this.dialogOpened = false)}">
+                                        ${translate('action.cancel')}
+                                    </vaadin-button>
+                                    <vaadin-button theme="primary" @click="${this.save}">
+                                        ${translate('action.save')}
+                                    </vaadin-button>
+                                </div>
+                            `
+                    )}
             ></vaadin-dialog>
         `;
     }
-
-    dialogLayout = html`
-        <div class="dialog-header">
-            <span class="title">${this.binder.value.id ? translate("label.updateCompany") : translate("label.newCompany")}</span>
-        </div>
-        <vaadin-vertical-layout
-                style="align-items: stretch; width: 25rem; max-width: 100%;">
-            <vaadin-text-field label="${translate('label.companyName')}"
-                               id="name"
-                               ${field(this.binder.model.name)}>
-
-            </vaadin-text-field>
-        </vaadin-vertical-layout>
-        <div class="dialog-footer">
-            <vaadin-button @click="${() => (this.dialogOpened = false)}">
-                ${translate('action.cancel')}
-            </vaadin-button>
-            <vaadin-button theme="primary" @click="${this.save}">
-                ${translate('action.save')}
-            </vaadin-button>
-        </div>
-    `
 
     async connectedCallback() {
         super.connectedCallback();
@@ -142,6 +141,7 @@ export class CompanyListView extends View {
                 this.gridSize++;
             }
             this.clearForm();
+            this.dialogOpened = false;
             this.refreshGrid();
             Notification.show(`Company saved.`, {position: 'bottom-start'});
         } catch (error: any) {
@@ -166,17 +166,19 @@ export class CompanyListView extends View {
         }
     }
 
-    addCompany() {
-        this.dialogOpened = true;
-        this.binder.clear();
+    private cancel() {
+        this.dialogOpened = false
+        this.clearForm()
     }
 
-    private cancel() {
-        this.grid.activeItem = undefined;
+   private addCompany() {
+       this.dialogOpened = true;
+       this.clearForm();
     }
 
     private clearForm() {
         this.binder.clear();
+        this.grid.activeItem = undefined;
     }
 
     private refreshGrid() {
