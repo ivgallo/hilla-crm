@@ -20,12 +20,16 @@ import {CompanyEndpoint} from "Frontend/generated/endpoints";
 import {Binder, field} from "@hilla/form";
 import CompanyModel from "Frontend/generated/com/example/application/data/entity/CompanyModel";
 import {EndpointError} from "@hilla/frontend";
+import {Dialog} from "@vaadin/dialog";
 
 @customElement('company-list-view')
 export class CompanyListView extends View {
 
     @query('#grid')
     private grid!: Grid;
+
+    @query('#dialog')
+    private dialog!: Dialog;
 
     @property({type: Number})
     private gridSize = 0;
@@ -36,8 +40,13 @@ export class CompanyListView extends View {
     @state()
     private dialogOpened = false;
 
+
     private gridDataProvider = this.getGridData.bind(this);
-    private binder = new Binder<Company, CompanyModel>(this, CompanyModel)
+    private binder = new Binder<Company, CompanyModel>(this, CompanyModel, {onChange:  () => {
+            if (this.dialog){
+                this.dialog.requestContentUpdate();
+            }
+        }});
 
     render() {
         const {model} = this.binder;
@@ -63,6 +72,7 @@ export class CompanyListView extends View {
                 </vaadin-grid>
             </div>
             <vaadin-dialog
+                    id="dialog"
                     .opened="${this.dialogOpened}"
                     @opened-changed="${(e: CustomEvent) => (this.dialogOpened = e.detail.value)}"
                     modeless
@@ -133,7 +143,6 @@ export class CompanyListView extends View {
     }
 
     private async save() {
-        console.log(this.binder);
         try {
             const isNew = !this.binder.value.id;
             await this.binder.submitTo(CompanyEndpoint.save);
