@@ -40,7 +40,6 @@ export class CompanyListView extends View {
     @state()
     private dialogOpened = false;
 
-
     private gridDataProvider = this.getGridData.bind(this);
     private binder = new Binder<Company, CompanyModel>(this, CompanyModel, {onChange:  () => {
             if (this.dialog){
@@ -75,7 +74,7 @@ export class CompanyListView extends View {
                     id="dialog"
                     .opened="${this.dialogOpened}"
                     @opened-changed="${(e: CustomEvent) => (this.dialogOpened = e.detail.value)}"
-                    modeless
+                    .noCloseOnOutsideClick="${true}"
                     ${dialogRenderer(
                             () => html`
                                 <div class="dialog-header">
