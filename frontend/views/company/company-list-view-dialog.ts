@@ -7,11 +7,14 @@ import '@vaadin/dialog';
 import '@vaadin/vertical-layout';
 import '@vaadin/horizontal-layout';
 import '@vaadin/form-layout';
+import '@vaadin/icon';
+import '@vaadin/vaadin-lumo-styles/vaadin-iconset';
 import {Notification} from '@vaadin/notification';
 import {dialogRenderer} from "lit-vaadin-helpers";
+import { guard } from 'lit/directives/guard.js';
 import {Grid, GridDataProviderCallback, GridDataProviderParams} from '@vaadin/grid';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {html} from "lit";
+import {html, render} from "lit";
 import {translate} from "lit-translate";
 import Company from "Frontend/generated/com/example/application/data/entity/Company";
 import Sort from "Frontend/generated/dev/hilla/mappedtypes/Sort";
@@ -41,11 +44,13 @@ export class CompanyListView extends View {
     private dialogOpened = false;
 
     private gridDataProvider = this.getGridData.bind(this);
-    private binder = new Binder<Company, CompanyModel>(this, CompanyModel, {onChange:  () => {
-            if (this.dialog){
+    private binder = new Binder<Company, CompanyModel>(this, CompanyModel, {
+        onChange: () => {
+            if (this.dialog) {
                 this.dialog.requestContentUpdate();
             }
-        }});
+        }
+    });
 
     render() {
         const {model} = this.binder;
@@ -72,14 +77,22 @@ export class CompanyListView extends View {
             </div>
             <vaadin-dialog
                     id="dialog"
+                    header-title="${this.binder.value.id ? translate("label.updateCompany") : translate("label.newCompany")}"
+                    .headerRenderer="${guard([], () => (root: HTMLElement) => {
+                        render(
+                                html`
+                                    <vaadin-button theme="tertiary" @click="${() => (this.dialogOpened = false)}">
+                                        <vaadin-icon icon="lumo:cross"></vaadin-icon>
+                                    </vaadin-button>
+                                `,
+                                root
+                        );
+                    })}"
                     .opened="${this.dialogOpened}"
                     @opened-changed="${(e: CustomEvent) => (this.dialogOpened = e.detail.value)}"
                     .noCloseOnOutsideClick="${true}"
                     ${dialogRenderer(
                             () => html`
-                                <div class="dialog-header">
-                                    <span class="title">${this.binder.value.id ? translate("label.updateCompany") : translate("label.newCompany")}</span>
-                                </div>
                                 <vaadin-vertical-layout
                                         style="align-items: stretch; width: 25rem; max-width: 100%;">
                                     <vaadin-text-field label="${translate('label.companyName')}"
@@ -179,9 +192,9 @@ export class CompanyListView extends View {
         this.clearForm()
     }
 
-   private addCompany() {
-       this.dialogOpened = true;
-       this.clearForm();
+    private addCompany() {
+        this.dialogOpened = true;
+        this.clearForm();
     }
 
     private clearForm() {
