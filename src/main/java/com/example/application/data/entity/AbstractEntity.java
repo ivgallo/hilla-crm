@@ -1,5 +1,7 @@
 package com.example.application.data.entity;
 
+import org.hibernate.annotations.Type;
+
 import java.util.UUID;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue
+    @Type(type = "uuid-char")
     private UUID id;
 
     public UUID getId() {
