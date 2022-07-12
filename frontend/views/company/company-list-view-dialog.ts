@@ -10,7 +10,7 @@ import '@vaadin/form-layout';
 import '@vaadin/icon';
 import '@vaadin/vaadin-lumo-styles/vaadin-iconset';
 import {Notification} from '@vaadin/notification';
-import {dialogRenderer} from "lit-vaadin-helpers";
+import { dialogRenderer } from '@vaadin/dialog/lit.js';
 import { guard } from 'lit/directives/guard.js';
 import {Grid, GridDataProviderCallback, GridDataProviderParams} from '@vaadin/grid';
 import {customElement, property, query, state} from 'lit/decorators.js';
