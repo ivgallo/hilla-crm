@@ -9,14 +9,14 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>11</java.version>
-        <hilla.version>1.1.1</hilla.version>
+        <java.version>17</java.version>
+        <hilla.version>2.0.0</hilla.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>3.0.4</version>
     </parent>
 
     <repositories>
@@ -87,7 +87,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>exampledata</artifactId>
-            <version>4.1.2</version>
+            <version>6.2.0</version>
         </dependency>
 
         <dependency>
@@ -208,26 +208,6 @@
                         </executions>
                         <configuration>
                             <productionMode>true</productionMode>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <!-- Clean build and startup time for Vaadin apps sometimes may exceed
-                             the default Spring Boot's 30sec timeout.  -->
-                        <configuration>
-                            <wait>500</wait>
-                            <maxAttempts>240</maxAttempts>
-                            <image>
-                                <name>${env.CONTAINER_REGISTRY_URL}/${env.CONTAINER_REPOSITORY}/hilla-crm/${project.artifactId}:${project.version}</name>
-                                <publish>true</publish>
-                            </image>
-                            <docker>
-                                <publishRegistry>
-                                    <username>${env.CONTAINER_REGISTRY_USERNAME}</username>
-                                    <password>${env.CONTAINER_REGISTRY_PASSWORD}</password>
-                                </publishRegistry>
-                            </docker>
                         </configuration>
                     </plugin>
                 </plugins>
