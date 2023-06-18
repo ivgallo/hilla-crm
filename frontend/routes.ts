@@ -4,7 +4,7 @@ import {autorun} from 'mobx';
 import './views/list/list-view';
 import './views/company/company-list-view-dialog'
 import './views/login/login-view';
-import './views/main-layout.ts';
+import './views/main-layout';
 
 export type ViewRoute = Route & {
     title?: string;
